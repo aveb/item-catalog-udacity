@@ -28,5 +28,5 @@ The ```Catalog App``` runs on your local machine on ```Port 5000```.  To start t
 
 ## Opening ```Catalog App```
 
-Open your favorite browser and go to [http://localhost:5000](https://localhost:5000)
+Open your favorite browser and go to [localhost:5000](localhost:5000)
 
