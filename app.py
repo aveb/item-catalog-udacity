@@ -44,7 +44,7 @@ def categoritesJSON():
 
 
 @app.route('/catalog/items/JSON/')
-def categoritesJSON():
+def itemsJSON():
     items = session.query(Item).all()
     return jsonify(items=[i.serialize for i in items])
 
