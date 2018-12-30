@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>Catalog</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="/">Catalog App</a>
+        <div class="nav-link">
+            {%if 'username' not in session %}
+            <a href="/login">Click Here to Login </a>
+            {% else %}
+            <a href="/gdisconnect">Logout </a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container">
+        <h1> Edit Item</h1>
+        <form action="#" method='post'>
+            <p>Name:</p>
+            <input type='text' size='30' name='name' placeholder='{{item.name }}'>
+            <p>Description:</p>
+            <input type='text' size='30' name='description' placeholder='{{item.description}}'>
+            <p>Category:<p>
+                    <p>{{item.category_name}}</p>
+                    {% if item.category_name == 'Basketball' %}
+                    <dd><input type='radio' name='category_name' value='Basketball' checked>Basketball</dd>
+                    {%else%}
+                    <dd><input type='radio' name='category_name' value='Basketball'>Basketball</dd>
+                    {% endif %}
+                    {% if item.category_name == 'Soccer' %}
+                    <dd><input type='radio' name='category_name' value='Soccer' checked>Soccer</dd>
+                    {%else%}
+                    <dd><input type='radio' name='category_name' value='Soccer'>Soccer</dd>
+                    {% endif %}
+                    {% if item.category_name == 'Baseball'%}
+                    <dd><input type='radio' name='category_name' value='Baseball' checked>Baseball</dd>
+                    {% else %}
+                    <dd><input type='radio' name='category_name' value='Baseball'>Baseball</dd>
+                    {% endif %}
+                    {% if item.category_name == 'Frisbee' %}
+                    <dd><input type='radio' name='category_name' value='Frisbee' checked>Frisbee</dd>
+                    {%else%}
+                    <dd><input type='radio' name='category_name' value='Frisbee'>Frisbee</dd>
+                    {% endif %}
+                    {% if item.category_name == 'Snowboarding' %}
+                    <dd><input type='radio' name='category_name' value='Snowboarding' checked>Snowboarding</dd>
+                    {%else%}
+                    <dd><input type='radio' name='category_name' value='Snowboarding'>Snowboarding</dd>
+                    {% endif %}
+                    {% if item.category_name == 'Rock Climbing'%}
+                    <dd><input type='radio' name='category_name' value='Rock Climbing' checked>Rock Climbing</dd>
+                    {% else %}
+                    <dd><input type='radio' name='category_name' value='Rock Climbing'>Rock Climbing</dd>
+                    {% endif %}
+                    {%if item.category_name =='Foosball'%}
+                    <dd><input type='radio' name='category_name' value='Foosball' checked>Foosball</dd>
+                    {% else %}
+                    <dd><input type='radio' name='category_name' value='Foosball'>Foosball</dd>
+                    {% endif %}
+                    {%if item.category_name =='Skating'%}
+                    <dd><input type='radio' name='category_name' value='Skating' checked>Skating</dd>
+                    {% else %}
+                    <dd><input type='radio' name='category_name' value='Skating'>Skating</dd>
+                    {% endif %}
+                    {%if item.category_name =='Hockey'%}
+                    <dd><input type='radio' name='category_name' value='Hockey' checked>Hockey</dd>
+                    {% else %}
+                    <dd><input type='radio' name='category_name' value='Hockey'>Hockey</dd>
+                    {% endif %}
+                    <input type='submit' value='Edit'>
+                    <a href = '/'> Cancel </a>
+        </form>
+    </div>
+</body>
+
+</html>

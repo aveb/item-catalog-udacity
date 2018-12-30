@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>Catalog</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="/">Catalog App</a>
+        <div class="nav-link">
+            {%if 'username' not in session %}
+            <a href="/login">Click Here to Login </a>
+            {% else %}
+            <a href="/gdisconnect">Logout </a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container">
+        <!--MESSAGE FLASHING -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li><strong>{{message}}</strong></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <div class="row">
+            {% for category in categories %}
+            <div class="card col-sm-4">
+                <div class="card-header">
+                    <a href = "{{url_for('showCategory', category_id = category.id)}}"> <h3>{{category.name}}</h3></a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for item in items%}
+                    {% if category.name == item.category_name %}
+                    <li class="list-group-item"><a href = "{{url_for('showItem', category_id = item.category_id, item_id=item.id )}}"> <p>{{item.name}}</p></a></li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+                <br>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+
+</html>
