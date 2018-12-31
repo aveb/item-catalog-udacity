@@ -3,7 +3,7 @@ from flask import (Flask, render_template, request,
                    redirect, jsonify, url_for, flash)
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db_setup import Base, Category, Item
+from db_setup import Base, Category, Item, User
 from flask import session as login_session
 import random
 import string
@@ -57,8 +57,33 @@ def showLogin():
     login_session['state'] = state
     return render_template('login.html', STATE=state)
 
+# User Helper Functions
+
+
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session[
+                   'email'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
 
 # gconnect route
+
+
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     # Validate state token
@@ -129,8 +154,13 @@ def gconnect():
     data = answer.json()
 
     login_session['username'] = data['name']
-    login_session['picture'] = data['picture']
     login_session['email'] = data['email']
+
+    # check if user exists, if not create new user
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        user_id = createUser(login_session)
+    login_session['user_id'] = user_id
 
     output = ''
     output += '<h1>Welcome, '
@@ -165,7 +195,6 @@ def gdisconnect():
         del login_session['gplus_id']
         del login_session['username']
         del login_session['email']
-        del login_session['picture']
         response = make_response(json.dumps('Successfully disconnected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         flash('you have been successfully logged out')
@@ -221,7 +250,8 @@ def newItem(category_id):
         newItem = Item(name=request.form['name'], description=request.form[
             'description'],
             category_name=request.form['category_name'],
-            category_id=cat_id)
+            category_id=cat_id,
+            user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
         return redirect(url_for('showCategory', category_id=category_id))
@@ -241,6 +271,12 @@ def newItem(category_id):
            methods=['GET', 'POST'])
 def editItem(category_id, item_id):
     editedItem = session.query(Item).filter_by(id=item_id).one()
+    creator = getUserInfo(editedItem.user_id)
+    if ('username' not in login_session or
+            creator.id != login_session['user_id']):
+        flash("You don't have permission to edit. " +
+              "If you created the Item, please login first")
+        return redirect('/')
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -267,6 +303,11 @@ def editItem(category_id, item_id):
            methods=['GET', 'POST'])
 def deleteItem(category_id, item_id):
     itemToDelete = session.query(Item).filter_by(id=item_id).one()
+    creator = getUserInfo(itemToDelete.user_id)
+    if ('username' not in login_session or
+            creator.id != login_session['user_id']):
+        flash("You don't have permission to delete this")
+        return redirect('/')
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
