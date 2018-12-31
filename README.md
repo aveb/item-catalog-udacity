@@ -30,3 +30,9 @@ The ```Catalog App``` runs on your local machine on ```Port 5000```.  To start t
 
 Open your favorite browser and go to [http://localhost:5000/](http://localhost:5000/)
 
+## Accessing ```Catalog App API```
+
+Two API endpoints are available for developers:
+
+1. Access JSON file of ```All Categories```.  Use this link: [http://localhost:5000/catalog/JSON/](http://localhost:5000/catalog/JSON/)
+2. Access JSON file of ```All Items```.  Use this link: [http://localhost:5000/catalog/items/JSON/](http://localhost:5000/catalog/items/JSON/)
