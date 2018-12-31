@@ -1,6 +1,6 @@
 # Catalog App
 
-An app that displays 9 common sports along with items related to each.  Users may create, edit and delete items in the Catalog.
+An app that displays 9 common sports along with items related to each.  Users may create, edit and delete items in the Catalog.  Users may not edit or delete items that they have not created.
 
 ## Prerequisites
 
